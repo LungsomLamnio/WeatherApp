@@ -1,0 +1,27 @@
+.weather-info {
+  border: 2px solid black;
+  width: 300px;
+  padding-left: 10px;
+  border-radius: 10px;
+  box-shadow: 5px 5px rgb(0, 0, 0, 0.2);
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+h1 {
+  font-size: 30px;
+  text-align: center;
+  color: #333;
+}
+
+.btn {
+  margin-top: 15px;
+  padding: 5px;
+  margin-left: 120px;
+}
+
+#cityName {
+  width: 200px;
+  margin-left: 20px;
+  padding: 5px;
+}
