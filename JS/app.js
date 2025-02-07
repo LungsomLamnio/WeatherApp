@@ -1,35 +1,82 @@
-let btn = document.getElementById("btn");
+let searchInput = document.getElementById("search-input");
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchWeatherData("Guwahati");
+});
+
+searchInput.addEventListener("keydown", (event) => {
+  if (event.key == "Enter") {
+    let cityName = searchInput.value.trim();
+    searchInput.value = "";
+    fetchWeatherData(cityName);
+  }
+});
 
 async function fetchWeatherData(cityName) {
-  const API_KEY = "f58ae87198246a07b383759b4dbebb69";
-  const apiurl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}`;
+  let API_KEY = "f58ae87198246a07b383759b4dbebb69";
+  let API_URL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&units=metric`;
 
   try {
-    const response = await fetch(apiurl);
+    const response = await fetch(API_URL);
     const data = await response.json();
 
-    if (data) {
-      const { main, name, weather, wind } = data;
-      let city = document.getElementById("city-name");
-      let humidity = document.getElementById("humidity");
-      let pressure = document.getElementById("pressure");
-      let temp = document.getElementById("temperature");
-      let desc = document.getElementById("weather-description");
-
-      city.innerText = `City: ${name}`;
-      humidity.innerText = `Humidity: ${main.humidity}`;
-      pressure.innerText = `Pressure: ${main.pressure}`;
-      temp.innerText = `Temperature: ${main.temp}`;
-      desc.innerText = `Description: ${weather[0].description}`;
-    } else {
-      console.log("No Data Found!");
+    if (data.cod === "404") {
+      displayError();
+      return;
     }
+    displayWeatherData(data);
   } catch (err) {
-    console.error("Error fetching Weather Data: ", err);
+    console.error("Error fetching weather data: ", err);
   }
 }
 
-btn.addEventListener("click", () => {
-  let cityName = document.getElementById("cityName").value;
-  fetchWeatherData(cityName);
-});
+function displayWeatherData(data) {
+  const cityName = document.getElementById("city-name");
+  const temperature = document.getElementById("temperature");
+  const humidity = document.getElementById("humidity");
+  const weatherDescription = document.getElementById("weather-description");
+  const weatherIcon = document.getElementById("weather-icon");
+
+  cityName.innerText = data.name;
+  temperature.innerText = `Temperature ${data.main.temp}°C`;
+  humidity.innerText = `Humidity: ${data.main.humidity}%`;
+  weatherDescription.innerText = `Weather: ${data.weather[0].main}`;
+
+  const weatherCondition = data.weather[0].main.toLowerCase();
+  weatherIcon.src = getWeatherIcon(weatherCondition);
+}
+
+function getWeatherIcon(weatherCondition) {
+  if (weatherCondition.includes("clear")) {
+    return "../Images/sunny.png";
+  } else if (weatherCondition.includes("cloud")) {
+    return "../Images/cloudy.png";
+  } else if (weatherCondition.includes("rain")) {
+    return "../Images/rainy.png";
+  } else if (weatherCondition.includes("snow")) {
+    return "../Images/snowy.png";
+  } else if (weatherCondition.includes("thunderstorm")) {
+    return "../Images/thunderstorm.png";
+  } else if (weatherCondition.includes("smoke")) {
+    return "../Images/smoke.png";
+  } else if (weatherCondition.includes("haze")) {
+    return "../Images/haze.png";
+  } else {
+    return "../Images/no-image.png";
+  }
+}
+
+function displayError() {
+  const cityName = document.getElementById("city-name");
+  const temperature = document.getElementById("temperature");
+  const humidity = document.getElementById("humidity");
+  const weatherDescription = document.getElementById("weather-description");
+  const weatherIcon = document.getElementById("weather-icon");
+
+  cityName.innerText = "City Not Found";
+  temperature.innerText = "";
+  humidity.innerText = "";
+  weatherDescription.innerText = "";
+
+  weatherIcon.src = getWeatherIcon("City Not Found");
+}
