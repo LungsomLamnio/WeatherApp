@@ -61,6 +61,8 @@ function getWeatherIcon(weatherCondition) {
     return "../Images/smoke.png";
   } else if (weatherCondition.includes("haze")) {
     return "../Images/haze.png";
+  } else if (weatherCondition.includes("mist")) {
+    return "../Images/mist.png";
   } else {
     return "../Images/no-image.png";
   }
