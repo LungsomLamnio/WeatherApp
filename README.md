@@ -69,7 +69,7 @@ https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${API_KEY}&u
 - Implement geolocation to fetch weather automatically based on user location.
 ## Screenshots
 
-![Homepage Screenshot](../Images/screenshot.png)
+![Homepage Screenshot]([../Images/screenshot.png](https://github.com/LungsomLamnio/WeatherApp/blob/main/Images/screenshot.png))
 ## License
 
 This project is open-source and free to use. Feel free to modify and improve it!
