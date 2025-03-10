@@ -82,5 +82,3 @@ function displayError() {
 
   weatherIcon.src = getWeatherIcon("City Not Found");
 }
-
-//hello
