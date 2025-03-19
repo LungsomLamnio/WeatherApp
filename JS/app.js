@@ -30,7 +30,35 @@ async function fetchWeatherData(cityName) {
   }
 }
 
+async function displayForecast(lat, lon) {
+  let API_KEY = "f58ae87198246a07b383759b4dbebb69";
+  let API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+
+    if (data.cod === "200") {
+      for (let i = 8; i < 25; i += 8) {
+        console.log(data.list[i]);
+
+        // let fore_temp = document.getElementById("fore-temp");
+        // fore_temp.innerText = `${data.list[i].main.temp}`;
+      }
+      return;
+    } else {
+      console.log("not found");
+    }
+  } catch (err) {
+    console.error("Error fetching weather data: ", err);
+  }
+}
+
 function displayWeatherData(data) {
+  const lat = data.coord.lat;
+  const lon = data.coord.lon;
+  displayForecast(lat, lon);
+
   const cityName = document.getElementById("city-name");
   const temperature = document.getElementById("temperature");
   const humidity = document.getElementById("humidity");
