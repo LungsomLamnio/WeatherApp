@@ -5,7 +5,7 @@ body {
 }
 
 .container {
-  height: 600px;
+  height: 700px;
   width: 450px;
   background-color: rgba(161, 219, 238, 0.85);
   margin: 30px auto;
@@ -38,4 +38,24 @@ body {
   display: flex;
   height: 50px;
   width: 50px;
+}
+
+#forecast-container {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.forecast-day {
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  width: 80px;
+}
+
+.forecast-day img {
+  width: 40px;
+  height: 40px;
 }

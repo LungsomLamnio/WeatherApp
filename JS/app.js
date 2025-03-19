@@ -32,25 +32,49 @@ async function fetchWeatherData(cityName) {
 
 async function displayForecast(lat, lon) {
   let API_KEY = "f58ae87198246a07b383759b4dbebb69";
-  let API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}`;
+  let API_URL = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
 
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
 
-    if (data.cod === "200") {
-      for (let i = 8; i < 25; i += 8) {
-        console.log(data.list[i]);
-
-        // let fore_temp = document.getElementById("fore-temp");
-        // fore_temp.innerText = `${data.list[i].main.temp}`;
-      }
+    if (data.cod !== "200") {
+      console.log("Forecast not found");
       return;
-    } else {
-      console.log("not found");
     }
+
+    let dailyForecasts = {};
+    data.list.forEach((forecast) => {
+      let date = new Date(forecast.dt * 1000).toLocaleDateString("en-US", {
+        weekday: "short",
+      });
+      if (!dailyForecasts[date]) {
+        dailyForecasts[date] = forecast;
+      }
+    });
+
+    let forecastArray = Object.values(dailyForecasts).slice(1, 4);
+
+    const forecastContainer = document.getElementById("forecast-container");
+    forecastContainer.innerHTML = "";
+
+    forecastArray.forEach((day) => {
+      let weatherCondition = day.weather[0].main.toLowerCase();
+      let iconSrc = getWeatherIcon(weatherCondition);
+
+      let forecastDiv = document.createElement("div");
+      forecastDiv.classList.add("forecast-day");
+      forecastDiv.innerHTML = `
+        <p>${new Date(day.dt * 1000).toLocaleDateString("en-US", {
+          weekday: "short",
+        })}</p>
+        <img src="${iconSrc}" alt="${day.weather[0].main}" />
+        <p>${Math.round(day.main.temp)}°C</p>
+      `;
+      forecastContainer.appendChild(forecastDiv);
+    });
   } catch (err) {
-    console.error("Error fetching weather data: ", err);
+    console.error("Error fetching weather forecast: ", err);
   }
 }
 
