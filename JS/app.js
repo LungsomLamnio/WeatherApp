@@ -1,8 +1,39 @@
 let searchInput = document.getElementById("search-input");
+let locBtn = document.getElementById("location-btn");
+const API_KEY = "f58ae87198246a07b383759b4dbebb69";
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchWeatherData("Guwahati");
 });
+
+locBtn.addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+        fetchWeatherByCoords(lat, lon);
+      },
+      (err) => {
+        alert("Location access denied or not available!");
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by this browser!");
+  }
+});
+
+async function fetchWeatherByCoords(lat, lon) {
+  let API_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`;
+
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    displayWeatherData(data);
+  } catch (err) {
+    console.error(`Error fetching weather data by coordinates ${err}`);
+  }
+}
 
 searchInput.addEventListener("keydown", (event) => {
   if (event.key == "Enter") {
