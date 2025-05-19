@@ -5,19 +5,26 @@ body {
 }
 
 .container {
-  height: 700px;
-  width: 450px;
+  max-width: 450px;
+  height: auto;
   background-color: rgba(161, 219, 238, 0.85);
   margin: 30px auto;
   border-radius: 30px;
   text-align: center;
-  padding-top: 20px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.search-bar {
+  margin-bottom: 10px;
 }
 
 #search-input {
   padding: 10px;
-  width: 300px;
+  width: 80%;
+  max-width: 300px;
   border-radius: 20px;
+  border: none;
   background-color: rgba(224, 233, 240, 0.5);
   color: rgb(14, 14, 14);
   font-size: 16px;
@@ -27,17 +34,36 @@ body {
   color: rgb(14, 14, 14);
 }
 
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+#location-btn,
+#unit-toggle {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: none;
+  background-color: #0f7ecb;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.display-data {
+  margin-top: 20px;
+}
+
 .image img {
-  margin-top: 100px;
   height: 100px;
   width: 100px;
 }
 
-.day-forecast {
-  border: 2px solid black;
-  display: flex;
-  height: 50px;
-  width: 50px;
+.data h2,
+.data p {
+  margin: 10px 0;
 }
 
 #forecast-container {
@@ -45,6 +71,7 @@ body {
   justify-content: center;
   gap: 10px;
   margin-top: 10px;
+  flex-wrap: wrap;
 }
 
 .forecast-day {
@@ -58,16 +85,4 @@ body {
 .forecast-day img {
   width: 40px;
   height: 40px;
-}
-
-#location-btn {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: none;
-  background-color: #0f7ecb;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  width: fit-content;
-  margin: 10px auto;
 }
